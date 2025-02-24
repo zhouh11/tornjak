@@ -266,6 +266,17 @@ kubectl apply -f spire-namespace.yaml \
     -f server-statefulset.yaml \
     -f server-service.yaml
 ```
+on Windows:
+```console
+kubectl apply -f spire-namespace.yaml `
+    -f server-account.yaml `
+    -f spire-bundle-configmap.yaml `
+    -f tornjak-configmap.yaml `
+    -f server-cluster-role.yaml `
+    -f server-configmap.yaml `
+    -f server-statefulset.yaml `
+    -f server-service.yaml
+```
 The above command should deploy the SPIRE server with Tornjak:
 
 ```
@@ -310,6 +321,14 @@ kubectl apply \
     -f agent-configmap.yaml \
     -f agent-daemonset.yaml
 ```
+On Windows:
+```console
+kubectl apply `
+    -f agent-account.yaml `
+    -f agent-cluster-role.yaml `
+    -f agent-configmap.yaml `
+    -f agent-daemonset.yaml
+```
 
 ```
 serviceaccount/spire-agent created
@@ -341,6 +360,16 @@ kubectl exec -n spire -c spire-server spire-server-0 -- \
     -selector k8s_sat:agent_sa:spire-agent \
     -node
 ```
+On Window:
+```console
+kubectl exec -n spire -c spire-server spire-server-0 -- `
+    /opt/spire/bin/spire-server entry create `
+    -spiffeID spiffe://example.org/ns/spire/sa/spire-agent `
+    -selector k8s_sat:cluster:demo-cluster `
+    -selector k8s_sat:agent_ns:spire `
+    -selector k8s_sat:agent_sa:spire-agent `
+    -node
+```
 
 ```
 Entry ID         : 03d0ec2b-54b7-4340-a0b9-d3b2cf1b041a
@@ -362,6 +391,15 @@ kubectl exec -n spire -c spire-server spire-server-0 -- \
     -spiffeID spiffe://example.org/ns/default/sa/default \
     -parentID spiffe://example.org/ns/spire/sa/spire-agent \
     -selector k8s:ns:default \
+    -selector k8s:sa:default
+```
+On Window:
+```console
+kubectl exec -n spire -c spire-server spire-server-0 -- `
+    /opt/spire/bin/spire-server entry create `
+    -spiffeID spiffe://example.org/ns/default/sa/default `
+    -parentID spiffe://example.org/ns/spire/sa/spire-agent `
+    -selector k8s:ns:default `
     -selector k8s:sa:default
 ```
 
